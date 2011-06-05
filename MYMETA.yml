@@ -1,0 +1,22 @@
+---
+abstract: "[One line description of module's purpose here]"
+author:
+  - 'Edward Allen <ealleniii_at_cpan_dot_org>'
+build_requires: {}
+dynamic_config: 0
+generated_by: 'Module::Build version 0.38, CPAN::Meta::Converter version 2.110930'
+license: perl
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+name: MooseX-Role-AttributeOverride
+provides:
+  MooseX::Role::AttributeOverride:
+    file: lib/MooseX/Role/AttributeOverride.pm
+    version: v0.0.3
+requires:
+  Test::More: 0
+  version: 0
+resources:
+  license: http://dev.perl.org/licenses/
+version: v0.0.3

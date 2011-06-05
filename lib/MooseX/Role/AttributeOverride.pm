@@ -1,0 +1,195 @@
+package MooseX::Role::AttributeOverride;
+use version; $VERSION = qv('0.0.3');
+use Moose::Role;
+use Moose::Exporter;
+
+use MooseX::Role::AttributeOverride::Meta::Trait::Role;
+use MooseX::Role::AttributeOverride::Meta::Trait::Role::ApplicationToClass;
+use MooseX::Role::AttributeOverride::Meta::Trait::Role::ApplicationToRole;
+use MooseX::Role::AttributeOverride::Meta::Trait::Role::Composite;
+
+
+BEGIN {
+
+    sub has_plus {
+        my ($meta, $name, %options) = @_;
+        if ($meta->can('_add_attribute_modifier')) {
+            $meta->_add_attribute_modifier([ $name => \%options ]);
+        }
+        else {
+            require Moose;
+            Moose->throw_error('Attempt to call has_plus on an invalid object');
+        }
+    };
+
+    Moose::Exporter->setup_import_methods(
+    with_meta => ['has_plus'],
+    role_metaroles => {
+            role =>
+                ['MooseX::Role::AttributeOverride::Meta::Trait::Role'],
+            application_to_class =>
+                ['MooseX::Role::AttributeOverride::Meta::Trait::Role::ApplicationToClass'],
+            application_to_role =>
+                ['MooseX::Role::AttributeOverride::Meta::Trait::Role::ApplicationToRole'],
+        },
+        also => 'Moose::Role',
+    );
+}
+
+
+
+1; # Magic true value required at end of module
+__END__
+
+=head1 NAME
+
+MooseX::Role::AttributeOverride - Allow roles to modify attributes
+
+
+=head1 VERSION
+
+This document describes MooseX::Role::AttributeOverride version 0.0.3
+
+
+=head1 SYNOPSIS
+
+    package MyApp::Role;
+    use Moose::Role;
+    use MooseX::Role::AttributeOverride;
+
+    has_plus 'fun' => (
+        default => 'yep',
+    );
+
+    package MyApp;
+    use Moose;
+
+
+    has 'fun' => (
+        is => 'rw',
+        isa => 'Str'
+    );
+
+    with qw(MyApp::Role);
+
+    package main;
+
+    say "Are you having fun? " . $test->fun;
+
+    # prints 'Are you having fun? yep'
+
+  
+=head1 DESCRIPTION
+
+Moose doesn't allow roles to override attributes using the has '+attr' method.
+There are several good reasons for that.  Basically, "that's not what a role
+is for."  A role is a set of requirements with defaults.  A class should
+always be able to override a role.
+
+However, I can think of some times when being able to modify an attribute
+would be a good thing.  For example, you want to have the default value for an
+attribute change depending on the roles. The exact circumstance that prompted
+me to write this is as follows:
+
+I am working on a project where data can be populated from several sources
+(e.g. database, various web sites, etc.).  I use attribute traits to document 
+the commands required to get the data.  I would like to be able to add and remove 
+sources easily.  I would like to seperate them out by source, rather than
+object.  So in short, I would like to use a role to describe "how to do
+something" rather than "what it needs to do."
+
+So, before using this module, think twice about why you need a role to change
+your class, rather than bind your class.
+
+
+=head1 INTERFACE 
+
+=over
+
+=item has_plus
+
+This has exactly the same syntax as the Moose has command, except you should
+not use a plus.  
+
+=back
+
+=head1 DIAGNOSTICS
+
+TODO
+
+
+=head1 DEPENDENCIES
+
+Moose 1.9900 or newer.
+
+=head1 INCOMPATIBILITIES
+
+I am sure that there are some MooseX modules that will not work with this.
+Please let me know, and I will at least document them.
+
+=head1 BUGS AND LIMITATIONS
+
+This is not the intended use of roles.  As a result, take into account the
+following:
+
+=over
+
+=item *
+
+Order matters! If two roles modify the same attribute in the same way,
+the second one applied will be the one that is used.  This behavior, however,
+relies on Moose keeping track of order, which it generally does a good job of,
+but no gurantees.
+
+=item *
+
+Currently, the value of the attribute is clobbered when the role is applied.
+This may change in the future.
+
+=back
+
+I am relativly new to Moose.  I had an itch, and wrote this Module to scratch
+it.  Please let me know how to make this module better.
+
+For bugs, test cases are great! 
+
+Please report any bugs or feature requests to
+C<bug-moosex-role-attributeoveride@rt.cpan.org>, or through the web interface at
+L<http://rt.cpan.org>.
+
+
+=head1 AUTHOR
+
+Edward Allen  C<< <ealleniii_at_cpan_dot_org> >>
+
+
+=head1 LICENCE AND COPYRIGHT
+
+Copyright (c) 2011, Edward Allen C<< <ealleniii_at_cpan_dot_org> >>. All rights reserved.
+
+This module is free software; you can redistribute it and/or
+modify it under the same terms as Perl itself. See L<perlartistic>.
+
+
+=head1 DISCLAIMER OF WARRANTY
+
+BECAUSE THIS SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY
+FOR THE SOFTWARE, TO THE EXTENT PERMITTED BY APPLICABLE LAW. EXCEPT WHEN
+OTHERWISE STATED IN WRITING THE COPYRIGHT HOLDERS AND/OR OTHER PARTIES
+PROVIDE THE SOFTWARE "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
+EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. THE
+ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE SOFTWARE IS WITH
+YOU. SHOULD THE SOFTWARE PROVE DEFECTIVE, YOU ASSUME THE COST OF ALL
+NECESSARY SERVICING, REPAIR, OR CORRECTION.
+
+IN NO EVENT UNLESS REQUIRED BY APPLICABLE LAW OR AGREED TO IN WRITING
+WILL ANY COPYRIGHT HOLDER, OR ANY OTHER PARTY WHO MAY MODIFY AND/OR
+REDISTRIBUTE THE SOFTWARE AS PERMITTED BY THE ABOVE LICENCE, BE
+LIABLE TO YOU FOR DAMAGES, INCLUDING ANY GENERAL, SPECIAL, INCIDENTAL,
+OR CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OR INABILITY TO USE
+THE SOFTWARE (INCLUDING BUT NOT LIMITED TO LOSS OF DATA OR DATA BEING
+RENDERED INACCURATE OR LOSSES SUSTAINED BY YOU OR THIRD PARTIES OR A
+FAILURE OF THE SOFTWARE TO OPERATE WITH ANY OTHER SOFTWARE), EVEN IF
+SUCH HOLDER OR OTHER PARTY HAS BEEN ADVISED OF THE POSSIBILITY OF
+SUCH DAMAGES.

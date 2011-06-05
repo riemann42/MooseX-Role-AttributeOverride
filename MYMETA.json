@@ -1,0 +1,37 @@
+{
+   "abstract" : "[One line description of module's purpose here]",
+   "author" : [
+      "Edward Allen <ealleniii_at_cpan_dot_org>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "Module::Build version 0.38, CPAN::Meta::Converter version 2.110930",
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : "2"
+   },
+   "name" : "MooseX-Role-AttributeOverride",
+   "prereqs" : {
+      "runtime" : {
+         "requires" : {
+            "Test::More" : 0,
+            "version" : 0
+         }
+      }
+   },
+   "provides" : {
+      "MooseX::Role::AttributeOverride" : {
+         "file" : "lib/MooseX/Role/AttributeOverride.pm",
+         "version" : "v0.0.3"
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "license" : [
+         "http://dev.perl.org/licenses/"
+      ]
+   },
+   "version" : "v0.0.3"
+}

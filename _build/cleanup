@@ -1,0 +1,5 @@
+do{ my $x = {
+       'MooseX-Role-AttributeOverride-*' => 1,
+       'blib' => 1
+     };
+$x; }
