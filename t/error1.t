@@ -26,7 +26,7 @@ eval {
 };
 my $error = $@;
 
-ok ($error =~ /Can't find attribute fun/, 'Missing Attribute dies');
+ok ($error =~ /Can't find attribute/, 'Missing Attribute dies');
 
 
 

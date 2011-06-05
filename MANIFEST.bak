@@ -1,3 +1,5 @@
+.perlcriticrc
+.perltidyrc
 Build.PL
 Changes
 ignore.txt
@@ -15,7 +17,13 @@ t/basicbuild.t
 t/basicbuild2.t
 t/composite.t
 t/composite2.t
+t/error1.t
+t/error2.t
+t/error3.t
 t/secondhand.t
 xt/90-perlcritic.t
 xt/97-pod.t
 xt/98-pod-coverage.t
+META.yml
+META.json
+LICENSE

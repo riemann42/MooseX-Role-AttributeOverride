@@ -3,7 +3,7 @@
    "author" : [
       "Edward Allen <ealleniii_at_cpan_dot_org>"
    ],
-   "dynamic_config" : 0,
+   "dynamic_config" : 1,
    "generated_by" : "Module::Build version 0.38, CPAN::Meta::Converter version 2.110930",
    "license" : [
       "perl_5"
