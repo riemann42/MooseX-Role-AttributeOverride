@@ -29,19 +29,19 @@
       },
       "MooseX::Role::AttributeOverride::Meta::Trait::Role" : {
          "file" : "lib/MooseX/Role/AttributeOverride/Meta/Trait/Role.pm",
-         "version" : 0
+         "version" : "v0.0.3"
       },
       "MooseX::Role::AttributeOverride::Meta::Trait::Role::ApplicationToClass" : {
          "file" : "lib/MooseX/Role/AttributeOverride/Meta/Trait/Role/ApplicationToClass.pm",
-         "version" : 0
+         "version" : "v0.0.3"
       },
       "MooseX::Role::AttributeOverride::Meta::Trait::Role::ApplicationToRole" : {
          "file" : "lib/MooseX/Role/AttributeOverride/Meta/Trait/Role/ApplicationToRole.pm",
-         "version" : 0
+         "version" : "v0.0.3"
       },
       "MooseX::Role::AttributeOverride::Meta::Trait::Role::Composite" : {
          "file" : "lib/MooseX/Role/AttributeOverride/Meta/Trait/Role/Composite.pm",
-         "version" : 0
+         "version" : "v0.0.3"
       }
    },
    "release_status" : "stable",
