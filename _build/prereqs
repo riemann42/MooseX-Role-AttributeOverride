@@ -3,7 +3,8 @@ do{ my $x = {
        'conflicts' => {},
        'requires' => {
                        'Test::More' => 0,
-                       'version' => 0
+                       'version' => 0,
+                       'Moose' => '1.99'
                      },
        'recommends' => {}
      };

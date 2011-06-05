@@ -1,5 +1,5 @@
 ---
-abstract: "[One line description of module's purpose here]"
+abstract: 'Allow roles to modify attributes'
 author:
   - 'Edward Allen <ealleniii_at_cpan_dot_org>'
 build_requires: {}
@@ -14,7 +14,20 @@ provides:
   MooseX::Role::AttributeOverride:
     file: lib/MooseX/Role/AttributeOverride.pm
     version: v0.0.3
+  MooseX::Role::AttributeOverride::Meta::Trait::Role:
+    file: lib/MooseX/Role/AttributeOverride/Meta/Trait/Role.pm
+    version: 0
+  MooseX::Role::AttributeOverride::Meta::Trait::Role::ApplicationToClass:
+    file: lib/MooseX/Role/AttributeOverride/Meta/Trait/Role/ApplicationToClass.pm
+    version: 0
+  MooseX::Role::AttributeOverride::Meta::Trait::Role::ApplicationToRole:
+    file: lib/MooseX/Role/AttributeOverride/Meta/Trait/Role/ApplicationToRole.pm
+    version: 0
+  MooseX::Role::AttributeOverride::Meta::Trait::Role::Composite:
+    file: lib/MooseX/Role/AttributeOverride/Meta/Trait/Role/Composite.pm
+    version: 0
 requires:
+  Moose: 1.99
   Test::More: 0
   version: 0
 resources:

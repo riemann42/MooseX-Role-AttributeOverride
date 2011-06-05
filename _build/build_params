@@ -100,7 +100,8 @@ do{ my $x = [
          'meta_add' => {},
          'requires' => {
                          'Test::More' => 0,
-                         'version' => 0
+                         'version' => 0,
+                         'Moose' => '1.99'
                        },
          'install_path' => {},
          'pm_files' => undef,

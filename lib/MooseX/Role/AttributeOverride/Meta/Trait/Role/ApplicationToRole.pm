@@ -1,12 +1,12 @@
 package MooseX::Role::AttributeOverride::Meta::Trait::Role::ApplicationToRole;
+use strict;
+use warnings;
+use version; our $VERSION = qv('0.0.3');
 use Moose::Role;
 
 around apply => sub {
-    my $orig = shift;
-    my $self = shift;
-    my ( $role1, $role2 ) = @_;
+    my ( $orig, $self, $role1, $role2 ) = @_;
     $self->$orig( $role1, $role2 );
-
     $role2 = Moose::Util::MetaRole::apply_metaroles(
         for            => $role2,
         role_metaroles => {
@@ -18,59 +18,84 @@ around apply => sub {
                 ['MooseX::Role::AttributeOverride::Meta::Trait::Role::ApplicationToRole'],
             },
     );
-    $role2->_add_additional_role($role1);
+    $role2->add_modifiers_from_role($role1);
+    return $role2;
 };
 
 no Moose::Role;
-
-1;
-
+1; # Magic true value required at end of module
 __END__
-
-=pod
 
 =head1 NAME
 
-MooseX::Role::AttributeOverride::Meta::Trait::Role::ApplicationToRole
+MooseX::Role::AttributeOverride::Meta::Trait::Role::ApplicationToRole - Support Role for
+L<MooseX::Role::AttributeOverride|MooseX::Role::AttributeOverride>
 
 =head1 VERSION
 
-version 0.10
+This document describes MooseX::Role::AttributeOverride version 0.0.3
 
-=head1 SEE ALSO
 
-=over 4
+=head1 SYNOPSIS
 
-=item *
+See L<MooseX::Role::AttributeOverride|MooseX::Role::AttributeOverride>
 
-L<MooseX::Role::AttributeOverride>
+=head1 DESCRIPTION
 
-=back
+This module is part of L<MooseX::Role::AttributeOverride|MooseX::Role::AttributeOverride>
 
-=head1 AUTHORS
+=head1 INTERFACE 
 
-=over 4
+See L<MooseX::Role::AttributeOverride|MooseX::Role::AttributeOverride>
 
-=item *
+=head1 DIAGNOSTICS
 
-Jesse Luehrs <doy at tozt dot net>
+See L<MooseX::Role::AttributeOverride|MooseX::Role::AttributeOverride>
 
-=item *
+=head1 DEPENDENCIES
 
-Chris Prather <chris@prather.org>
+See L<MooseX::Role::AttributeOverride|MooseX::Role::AttributeOverride>
 
-=item *
+=head1 INCOMPATIBILITIES
 
-Justin Hunter <justin.d.hunter at gmail dot com>
+See L<MooseX::Role::AttributeOverride|MooseX::Role::AttributeOverride>
 
-=back
+=head1 BUGS AND LIMITATIONS
 
-=head1 COPYRIGHT AND LICENSE
+See L<MooseX::Role::AttributeOverride|MooseX::Role::AttributeOverride>
 
-This software is copyright (c) 2011 by Jesse Luehrs.
+=head1 AUTHOR
 
-This is free software; you can redistribute it and/or modify it under
-the same terms as the Perl 5 programming language system itself.
+Edward Allen  C<< <ealleniii_at_cpan_dot_org> >>
 
-=cut
 
+=head1 LICENCE AND COPYRIGHT
+
+Copyright (c) 2011, Edward Allen C<< <ealleniii_at_cpan_dot_org> >>. All rights reserved.
+
+This module is free software; you can redistribute it and/or
+modify it under the same terms as Perl itself. See L<perlartistic|perlartistic>.
+
+
+=head1 DISCLAIMER OF WARRANTY
+
+BECAUSE THIS SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY
+FOR THE SOFTWARE, TO THE EXTENT PERMITTED BY APPLICABLE LAW. EXCEPT WHEN
+OTHERWISE STATED IN WRITING THE COPYRIGHT HOLDERS AND/OR OTHER PARTIES
+PROVIDE THE SOFTWARE "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
+EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. THE
+ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE SOFTWARE IS WITH
+YOU. SHOULD THE SOFTWARE PROVE DEFECTIVE, YOU ASSUME THE COST OF ALL
+NECESSARY SERVICING, REPAIR, OR CORRECTION.
+
+IN NO EVENT UNLESS REQUIRED BY APPLICABLE LAW OR AGREED TO IN WRITING
+WILL ANY COPYRIGHT HOLDER, OR ANY OTHER PARTY WHO MAY MODIFY AND/OR
+REDISTRIBUTE THE SOFTWARE AS PERMITTED BY THE ABOVE LICENCE, BE
+LIABLE TO YOU FOR DAMAGES, INCLUDING ANY GENERAL, SPECIAL, INCIDENTAL,
+OR CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OR INABILITY TO USE
+THE SOFTWARE (INCLUDING BUT NOT LIMITED TO LOSS OF DATA OR DATA BEING
+RENDERED INACCURATE OR LOSSES SUSTAINED BY YOU OR THIRD PARTIES OR A
+FAILURE OF THE SOFTWARE TO OPERATE WITH ANY OTHER SOFTWARE), EVEN IF
+SUCH HOLDER OR OTHER PARTY HAS BEEN ADVISED OF THE POSSIBILITY OF
+SUCH DAMAGES.

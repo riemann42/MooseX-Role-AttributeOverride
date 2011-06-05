@@ -10,6 +10,7 @@ my $builder = Module::Build->new(
     requires => {
         'Test::More' => 0,
         'version'    => 0,
+        'Moose'      => 1.99,
     },
     add_to_cleanup      => [ 'MooseX-Role-AttributeOverride-*' ],
 );

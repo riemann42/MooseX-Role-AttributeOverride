@@ -1,5 +1,7 @@
 package MooseX::Role::AttributeOverride;
-use version; $VERSION = qv('0.0.3');
+use strict;
+use warnings;
+use version; our $VERSION = qv('0.0.3');
 use Moose::Role;
 use Moose::Exporter;
 
@@ -13,13 +15,17 @@ BEGIN {
 
     sub has_plus {
         my ($meta, $name, %options) = @_;
-        if ($meta->can('_add_attribute_modifier')) {
-            $meta->_add_attribute_modifier([ $name => \%options ]);
+        if ($name =~ /\A \+/xms) {
+            Moose->throw_error('Do not use a plus prefix with the has_plus sugar');
+        }
+        if ($meta->can('add_attribute_modifier')) {
+            $meta->add_attribute_modifier([ $name => \%options ]);
         }
         else {
             require Moose;
             Moose->throw_error('Attempt to call has_plus on an invalid object');
         }
+        return;
     };
 
     Moose::Exporter->setup_import_methods(
@@ -86,21 +92,8 @@ There are several good reasons for that.  Basically, "that's not what a role
 is for."  A role is a set of requirements with defaults.  A class should
 always be able to override a role.
 
-However, I can think of some times when being able to modify an attribute
-would be a good thing.  For example, you want to have the default value for an
-attribute change depending on the roles. The exact circumstance that prompted
-me to write this is as follows:
-
-I am working on a project where data can be populated from several sources
-(e.g. database, various web sites, etc.).  I use attribute traits to document 
-the commands required to get the data.  I would like to be able to add and remove 
-sources easily.  I would like to seperate them out by source, rather than
-object.  So in short, I would like to use a role to describe "how to do
-something" rather than "what it needs to do."
-
-So, before using this module, think twice about why you need a role to change
-your class, rather than bind your class.
-
+But sometimes you want a role to B<add> features to a class.  This is why Moose
+has method modifiers.  This extension adds attribute modifiers.
 
 =head1 INTERFACE 
 
@@ -111,16 +104,50 @@ your class, rather than bind your class.
 This has exactly the same syntax as the Moose has command, except you should
 not use a plus.  
 
+One additional option is available, 'override_ignore_missing'. Setting this to
+a true value will allow your role to have modifications to attributes that may
+not exist in the class it is applied to.  The default is to die in these
+cases.
+
 =back
 
 =head1 DIAGNOSTICS
 
-TODO
+=over
 
+=item   Can't find attribute $attr required by $role
+
+You will see this error if your role has an attribute modification for an
+attribute that is not in the class.  You can squash this by setting the
+'override_ignore_missing' option in your 'has_plus' command.
+
+=item   Attempt to call has_plus on an invalid object
+
+You really should never see this.  Please file a bug report if you do. A test
+case would be nice as well.
+
+=item   Illegal inherited options 
+
+Moose will throw this error if you try to change an accessor option.  See 
+L<the Moose manual|Moose::Manual::Attributes/"ATTRIBUTE INHERITANCE"> for more
+details.
+
+=item Do not use a plus prefix with the has_plus sugar
+
+There is no need for a plus sign on your attribute:
+
+    # Good
+    has 'children', trait => ['good']
+
+    # Bad.  Will die
+    has '+children', trait => ['naughty']
+
+=back
 
 =head1 DEPENDENCIES
 
-Moose 1.9900 or newer.
+Moose 1.9900 or newer.  Older versions may be supported in a future version of
+this module.
 
 =head1 INCOMPATIBILITIES
 
@@ -146,6 +173,11 @@ but no gurantees.
 Currently, the value of the attribute is clobbered when the role is applied.
 This may change in the future.
 
+=item *
+
+This works the same as '+has'.  This means that you can't override accessor
+methods.  This is a very sensible Moose limitation.
+
 =back
 
 I am relativly new to Moose.  I had an itch, and wrote this Module to scratch
@@ -155,8 +187,11 @@ For bugs, test cases are great!
 
 Please report any bugs or feature requests to
 C<bug-moosex-role-attributeoveride@rt.cpan.org>, or through the web interface at
-L<http://rt.cpan.org>.
+L<http://rt.cpan.org|http://rt.cpan.org>.
 
+=head1 SEE ALSO
+
+L<Moose|Moose>, L<Moose::Manual::Attributes|Moose::Manual::Attributes>
 
 =head1 AUTHOR
 
@@ -168,7 +203,7 @@ Edward Allen  C<< <ealleniii_at_cpan_dot_org> >>
 Copyright (c) 2011, Edward Allen C<< <ealleniii_at_cpan_dot_org> >>. All rights reserved.
 
 This module is free software; you can redistribute it and/or
-modify it under the same terms as Perl itself. See L<perlartistic>.
+modify it under the same terms as Perl itself. See L<perlartistic|perlartistic>.
 
 
 =head1 DISCLAIMER OF WARRANTY
