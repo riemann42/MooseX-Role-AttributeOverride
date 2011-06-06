@@ -18,3 +18,5 @@ lib.old
 tmp
 MYMETA.yml
 t/LWPCache/
+.build
+MooseX-Role-AttributeOverride-*
