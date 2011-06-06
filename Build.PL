@@ -19,7 +19,7 @@ my $builder = Module::Build->new(
     add_to_cleanup      => [ 'MooseX-Role-AttributeOverride-*' ],
     use_tap_harness => 1,
     create_license => 1,
-    release_status => 'unstable',
+    #release_status => 'unstable',
     create_makefile_pl => 'traditional',
 );
 

@@ -2,9 +2,7 @@ package MyApp::RoleA;
 use Moose::Role;
 use MooseX::Role::AttributeOverride;
 
-has_plus 'fun' => (
-    default => 'yep',
-);
+has_plus 'fun' => ( default => 'yep', );
 
 1;
 
@@ -16,12 +14,12 @@ with qw(MyApp::RoleA);
 requires qw(have);
 
 1;
+
 package MyApp;
 use Moose;
 
-
 has 'fun' => (
-    is => 'rw',
+    is  => 'rw',
     isa => 'Str'
 );
 
@@ -39,11 +37,7 @@ use Test::More tests => 2;
 
 my $test = MyApp->new();
 
-is($test->fun, 'yep', 'Default was set by role');
+is( $test->fun, 'yep', 'Default was set by role' );
 $test->have;
-is($test->fun, 'you betcha', 'can be modified');
-
-
-
-
+is( $test->fun, 'you betcha', 'can be modified' );
 

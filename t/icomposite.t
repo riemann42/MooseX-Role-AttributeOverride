@@ -4,14 +4,14 @@ use MooseX::Role::AttributeOverride;
 
 has_plus 'fun' => ( default => 'yep', );
 
-1;
+no Moose::Role;
 
 package MyApp::RoleB;
 use Moose::Role;
 
 requires qw(have);
 
-1;
+no Moose::Role;
 
 package MyApp;
 use Moose;
@@ -27,7 +27,8 @@ sub have {
 
 with qw(MyApp::RoleA MyApp::RoleB);
 
-1;
+__PACKAGE__->meta->make_immutable;
+no Moose;
 
 package main;
 

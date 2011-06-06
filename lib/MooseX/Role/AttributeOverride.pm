@@ -101,13 +101,38 @@ has method modifiers.  This extension adds attribute modifiers.
 
 =item has_plus
 
-This has exactly the same syntax as the Moose has command, except you should
-not use a plus.  
+This has exactly the same syntax as the Moose L<has|Moose/has> command, except
+you should not use a plus to indicate you are overriding an attribute.  
 
-One additional option is available, 'override_ignore_missing'. Setting this to
-a true value will allow your role to have modifications to attributes that may
-not exist in the class it is applied to.  The default is to die in these
+=item has_plus options
+
+=over
+
+=item override_ignore_missing
+
+Setting this to a true value will allow your role to have modifications to attributes 
+that may not exist in the class it is applied to.  The default is to die in these
 cases.
+
+For example:
+
+    package MyApp::Role;
+    use Moose::Role;
+    use MooseX::Role::AttributeOverride;
+
+    has_plus 'fun' => (
+        default => 'yep',
+        override_ignore_missing => 1,
+    );
+
+    package MyApp;
+    use Moose;
+
+    with qw(MyApp::Role);
+    # I'm not dead yet.
+
+The above would not die, even though the MyApp package has no attribute named
+'fun.'
 
 =back
 
@@ -139,7 +164,7 @@ There is no need for a plus sign on your attribute:
     # Good
     has 'children', trait => ['good']
 
-    # Bad.  Will die
+    # Bad.  Will die.
     has '+children', trait => ['naughty']
 
 =back
@@ -166,7 +191,7 @@ following:
 Order matters! If two roles modify the same attribute in the same way,
 the second one applied will be the one that is used.  This behavior, however,
 relies on Moose keeping track of order, which it generally does a good job of,
-but no gurantees.
+but no guarantees.
 
 =item *
 
