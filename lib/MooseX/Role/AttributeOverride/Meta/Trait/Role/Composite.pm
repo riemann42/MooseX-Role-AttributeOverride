@@ -2,6 +2,7 @@ package MooseX::Role::AttributeOverride::Meta::Trait::Role::Composite;
 # ABSTRACT: Support Role for L<MooseX::Role::AttributeOverride|MooseX::Role::AttributeOverride>
 use 5.008;
 use Moose::Role;
+use Moose::Util::MetaRole;
 
 # I am not at all sure why I need to do this.  I think I am missing somthing.
 with 'MooseX::Role::AttributeOverride::Meta::Trait::Role';
@@ -10,6 +11,8 @@ around apply_params => sub {
     my $orig = shift;
     my $self = shift;
     $self->$orig(@_);
+
+    ## no critic (ProhibitCallsToUnexportedSubs);
 
     $self = Moose::Util::MetaRole::apply_metaroles(
         for            => $self,
@@ -22,6 +25,8 @@ around apply_params => sub {
                 ['MooseX::Role::AttributeOverride::Meta::Trait::Role::ApplicationToRole'],
             },
     );
+
+    ## use critic;
 
     for my $role (@{$self->get_roles}) {
         if ($role->can('attribute_modifiers')) {

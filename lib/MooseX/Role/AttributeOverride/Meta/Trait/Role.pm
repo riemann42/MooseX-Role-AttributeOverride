@@ -2,6 +2,7 @@ package MooseX::Role::AttributeOverride::Meta::Trait::Role;
 # ABSTRACT: Support Role for L<MooseX::Role::AttributeOverride|MooseX::Role::AttributeOverride>
 
 use 5.008;
+use utf8;
 
 use strict;
 use warnings;
@@ -30,6 +31,7 @@ sub apply_modifiers_to_class {
 sub apply_modifier_to_attribute {
     my ( $role, $class, $attr, $opts ) = @_;
     my $attr_obj = $class->find_attribute_by_name($attr);
+    ## no critic (ProhibitAccessOfPrivateData);
     if ($attr_obj) {
         if ( exists $opts->{override_ignore_missing} ) {
             delete $opts->{override_ignore_missing};
@@ -46,13 +48,14 @@ sub apply_modifier_to_attribute {
         }
         return;
     }
+    ## use critic;
     return $attr_obj;
 }
 
 sub add_modifiers_from_role {
-    my ( $role1, $role2 ) = @_;
-    $role1->add_attribute_modifier( @{ $role2->attribute_modifiers } );
-    return $role1;
+    my ( $role_a, $role_b ) = @_;
+    $role_a->add_attribute_modifier( @{ $role_b->attribute_modifiers } );
+    return $role_a;
 }
 
 sub composition_class_roles {
@@ -81,7 +84,7 @@ See L<MooseX::Role::AttributeOverride|MooseX::Role::AttributeOverride>
 
 =head1 DESCRIPTION
 
-Apply this role to L<Moose::Meta::Role>.
+Apply this role to L<Moose::Meta::Role|Moose::Meta::Role>.
 
 =head1 DIAGNOSTICS
 

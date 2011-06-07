@@ -1,7 +1,7 @@
 package MooseX::Role::AttributeOverride::Meta::Trait::Role::ApplicationToClass;
 # ABSTRACT: Support Role for L<MooseX::Role::AttributeOverride|MooseX::Role::AttributeOverride>
-
 use 5.008;
+use utf8;
 use Moose::Role;
 
 around apply => sub {
@@ -24,7 +24,7 @@ See L<MooseX::Role::AttributeOverride|MooseX::Role::AttributeOverride>
 
 =head1 DESCRIPTION
 
-Apply this role to L<Moose::Meta::Role::Application::ToClass>.
+Apply this role to L<Moose::Meta::Role::Application::ToClass|Moose::Meta::Role::Application::ToClass>.
 
 =head1 DIAGNOSTICS
 

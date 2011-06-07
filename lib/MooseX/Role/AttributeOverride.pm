@@ -1,8 +1,7 @@
 package MooseX::Role::AttributeOverride;
 # ABSTRACT: Allow roles to modify attributes
-
 use 5.008;
-
+use utf8;
 use Moose::Role 1.9900;
 use Moose::Exporter;
 
@@ -27,7 +26,7 @@ BEGIN {
             Moose->throw_error('Attempt to call has_plus on an invalid object');
         }
         return;
-    };
+    }
 
     Moose::Exporter->setup_import_methods(
     with_meta => ['has_plus'],
@@ -60,7 +59,7 @@ __END__
 
 
     package MyApp;
-    use Moose;
+    use Moose 1.9900;
 
     has 'fun' => (
         is => 'rw',
@@ -70,6 +69,7 @@ __END__
     with qw(MyApp::Role);
 
     package main;
+    use feature 'say';
 
     say "Are you having fun? " . $test->fun;
 
@@ -201,10 +201,6 @@ I am relativly new to Moose. I had an itch, and wrote this Module to scratch
 it. Please let me know how to make this module better.
 
 For bugs, test cases are great! 
-
-Please report any bugs or feature requests to
-C<bug-moosex-role-attributeoveride@rt.cpan.org>, or through the web interface at
-L<http://rt.cpan.org|http://rt.cpan.org>.
 
 =head1 SEE ALSO
 Moose

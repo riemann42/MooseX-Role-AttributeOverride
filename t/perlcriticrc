@@ -16,3 +16,17 @@ verbose = 9
 # These are for things I don't use
 [-Editor::RequireEmacsFileVariables] 
 [-Miscellanea::RequireRcsKeywords]
+
+# Annoying.
+[-Compatibility::PodMinimumVersion]
+
+# Moose
+[-Subroutines::ProhibitCallsToUndeclaredSubs]
+
+# Allow use strict at top
+[-Modules::RequireExplicitPackage]
+
+[-CodeLayout::RequireUseUTF8] 
+[-Documentation::RequirePODUseEncodingUTF8] 
+
+
