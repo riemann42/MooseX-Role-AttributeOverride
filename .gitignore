@@ -17,6 +17,7 @@ Debian_CPANTS.txt*
 lib.old
 tmp
 MYMETA.yml
+MYMETA.json
 t/LWPCache/
 .build
 MooseX-Role-AttributeOverride-*

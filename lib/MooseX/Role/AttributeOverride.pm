@@ -197,7 +197,7 @@ methods. This is a very sensible Moose limitation.
 
 =back
 
-I am relativly new to Moose. I had an itch, and wrote this Module to scratch
+I am relatively new to Moose. I had an itch, and wrote this Module to scratch
 it. Please let me know how to make this module better.
 
 For bugs, test cases are great! 
@@ -206,4 +206,6 @@ For bugs, test cases are great!
 Moose
 Moose::Manual::Attributes
 
+=for stopwords
+MooseX MyApp
 
