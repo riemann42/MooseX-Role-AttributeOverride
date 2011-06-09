@@ -60,6 +60,8 @@ sub apply_modifier_to_attribute {
 sub clone_attr_and_inherit_options {
     my ($role, $attr, %options) = @_;
 
+    ## no critic (ProhibitAccessOfPrivateData);
+
     my @illegal_options = $attr->can('illegal_options_for_inheritance')
         ? $attr->illegal_options_for_inheritance
         : ();
@@ -73,17 +75,21 @@ sub clone_attr_and_inherit_options {
 
         my %seen;
         my @all_traits = grep { $seen{$_}++ } @{ $attr->applied_traits || [] }, @traits;
-        $options{traits} = \@all_traits if @all_traits;
+        if (@all_traits) {
+            $options{traits} = \@all_traits;
+        }
     }
 
     if ($options{coerce} && (! exists $options{isa})) {
         $options{isa} = $attr->type_constraint;
     }
 
-    $options{metaclass}->_process_options( $attr->name, \%options )
-        if $attr->can('_process_options');
+    if ($attr->can('_process_options')) {
+        $options{metaclass}->_process_options( $attr->name, \%options )
+    }
     
-    $attr->clone(%options);
+    ## use critic; 
+    return $attr->clone(%options);
 }
 
 sub add_modifiers_from_role {
