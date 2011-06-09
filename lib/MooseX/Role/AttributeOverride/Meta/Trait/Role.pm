@@ -1,5 +1,8 @@
 package MooseX::Role::AttributeOverride::Meta::Trait::Role;
 # ABSTRACT: Support Role for L<MooseX::Role::AttributeOverride|MooseX::Role::AttributeOverride>
+
+# PODNAME: MooseX::Role::AttributeOverride::Meta::Trait::Role
+
 use 5.008;
 use utf8;
 
@@ -112,6 +115,10 @@ See L<MooseX::Role::AttributeOverride|MooseX::Role::AttributeOverride>
 =method attribute_modifiers
 
 =method add_attribute_modifier
+
+=method clone_attr_and_inherit_options
+This is a hacked version of Moose::Meta::Attributes to fix issues with traits
+that hack _process_options.
 
 =head1 DESCRIPTION
 

@@ -195,6 +195,13 @@ This may change in the future.
 This works the same as '+has'. This means that you can't override accessor
 methods. This is a very sensible Moose limitation.
 
+=item *
+
+After having an issue with Moose, clone_and_inherit_options, and traits that
+use _process_options, I reimplemented clone_and_inherit_optiosn in a way that
+fixes it.  Sort of.  A side effect of this is that has_plus will not allow you
+to override the lazy option, without a default or builder option.
+
 =back
 
 I am relatively new to Moose. I had an itch, and wrote this Module to scratch
