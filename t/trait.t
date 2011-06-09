@@ -7,6 +7,11 @@ around _process_options => sub {
      return $orig->($class , $name, $options);
 };
 
+around clone => sub {
+    my $orig = shift;
+    my $clone = $orig->(@_);
+    $clone->{default} = sub { return 'yep' };   # Blah
+};
 
 package MyApp::Role;
 use Moose::Role;
@@ -33,9 +38,27 @@ package main;
 
 #use MyApp;
 
-use Test::More tests => 1;    # last test to print
+use Test::More tests => 3;    # last test to print
 
 my $test = MyApp->new();
+my $attr = $test->meta->find_attribute_by_name('fun');
 
-is( $test->fun, 'yep', "Default was set by role" );
+ok ( $attr->has_applied_traits, 'Traits get applied');
+
+my $traits = $attr->applied_traits;
+my $mytrait = 0;
+if ($traits) {
+    for (@{$traits}) {
+        $mytrait += ($_ eq 'MyApp::Meta::Attribute') ? 1 : 0;
+    }
+}
+
+ok ( $mytrait, 'My traits get applied');
+
+#TODO:
+#{
+#    local $TODO = "This is a bug in moose (68698).";
+    is( $test->fun, 'yep', "Default was set by role" );
+#}
+
 
