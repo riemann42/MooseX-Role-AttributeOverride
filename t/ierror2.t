@@ -21,15 +21,16 @@ no Moose;
 
 package main;
 use Moose::Util;
-
+use Try::Tiny;
 use Test::More tests => 1;    # last test to print
 
-eval {
+my $error = undef;
+try {
     Moose::Util::apply_all_roles( 'MyApp', 'MyApp::Role' );
-    MyApp->meta->make_immutable;
     my $test = MyApp->new();
+}
+catch {
+    $error = $_;
 };
-my $error = $@;
 
 ok( !$error, 'Missing Attribute does not die' );
-

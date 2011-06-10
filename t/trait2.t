@@ -13,12 +13,18 @@ around clone => sub {
     $clone->{default} = sub { return 'yep' };   # Blah
 };
 
-package MyApp::Role;
+package MyApp::RoleA;
 use Moose::Role;
 use MooseX::Role::AttributeOverride;
 
 has_plus 'fun' => ( traits => ['MyApp::Meta::Attribute'] );
 
+no Moose::Role;
+
+
+package MyApp::RoleB;
+use Moose::Role;
+with qw(MyApp::RoleA);
 no Moose::Role;
 
 package MyApp;
@@ -29,7 +35,7 @@ has 'fun' => (
     isa => 'Str'
 );
 
-with qw(MyApp::Role);
+with qw(MyApp::RoleB);
 
 __PACKAGE__->meta->make_immutable;
 no Moose;
