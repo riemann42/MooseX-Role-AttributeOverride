@@ -1,47 +1,62 @@
-package MyApp::RoleA;
-use Moose::Role;
-use MooseX::Role::AttributeOverride;
+use strict;
+use warnings;
 
-has_plus 'fun' => ( default => 'yep', );
+{
 
-1;
+    package MyApp::RoleA;
+    use Moose::Role;
+    use MooseX::Role::AttributeOverride;
 
-package MyApp::RoleB;
-use Moose::Role;
-use MooseX::Role::AttributeOverride;
+    has_plus 'fun' => ( default => 'yep', );
 
-requires qw(have);
+    1;
 
-has_plus 'fun' => (
-    default => '2',
-    isa     => 'Int',
-);
-
-1;
-
-package MyApp;
-use Moose;
-
-has 'fun' => (
-    is  => 'rw',
-    isa => 'Str'
-);
-
-sub have {
-    shift->fun(3);
 }
+{
 
-with qw(MyApp::RoleA MyApp::RoleB);
+    package MyApp::RoleB;
+    use Moose::Role;
+    use MooseX::Role::AttributeOverride;
 
-1;
+    requires qw(have);
 
-package main;
+    has_plus 'fun' => (
+        default => '2',
+        isa     => 'Int',
+    );
 
-use Test::More tests => 2;
+    1;
 
-my $test = MyApp->new();
+}
+{
 
-is( $test->fun, 2, "Default was set by role and updated" );
-$test->have;
-is( $test->fun, 3, "can be modified" );
+    package MyApp;
+    use Moose;
 
+    has 'fun' => (
+        is  => 'rw',
+        isa => 'Str'
+    );
+
+    sub have {
+        shift->fun(3);
+    }
+
+    with qw(MyApp::RoleA MyApp::RoleB);
+
+    1;
+
+}
+{
+
+    package main;
+
+    use Test::More tests => 2;
+
+    my $test = MyApp->new();
+
+    is( $test->fun, 2, "Default was set by role and updated" );
+    $test->have;
+    is( $test->fun, 3, "can be modified" );
+
+}

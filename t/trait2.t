@@ -1,52 +1,70 @@
-package MyApp::Meta::Attribute;
-use Moose::Role;
+use strict;
+use warnings;
 
-around _process_options => sub {
-    my ( $orig, $class, $name, $options ) = @_;
-   $options->{default} = sub { return 'yep' };  
-     return $orig->($class , $name, $options);
-};
+{
 
-around clone => sub {
-    my $orig = shift;
-    my $clone = $orig->(@_);
-    $clone->{default} = sub { return 'yep' };   # Blah
-};
+    package MyApp::Meta::Attribute;
+    use Moose::Role;
 
-package MyApp::RoleA;
-use Moose::Role;
-use MooseX::Role::AttributeOverride;
+    around _process_options => sub {
+        my ( $orig, $class, $name, $options ) = @_;
+        $options->{default} = sub { return 'yep' };
+        return $orig->( $class, $name, $options );
+    };
 
-has_plus 'fun' => ( traits => ['MyApp::Meta::Attribute'] );
+    around clone => sub {
+        my $orig  = shift;
+        my $clone = $orig->(@_);
+        $clone->{default} = sub { return 'yep' };    # Blah
+    };
 
-no Moose::Role;
+}
+{
 
+    package MyApp::RoleA;
+    use Moose::Role;
+    use MooseX::Role::AttributeOverride;
 
-package MyApp::RoleB;
-use Moose::Role;
-with qw(MyApp::RoleA);
-no Moose::Role;
+    has_plus 'fun' => ( traits => ['MyApp::Meta::Attribute'] );
 
-package MyApp;
-use Moose;
+    no Moose::Role;
 
-has 'fun' => (
-    is  => 'rw',
-    isa => 'Str'
-);
+}
+{
 
-with qw(MyApp::RoleB);
+    package MyApp::RoleB;
+    use Moose::Role;
+    with qw(MyApp::RoleA);
+    no Moose::Role;
 
-__PACKAGE__->meta->make_immutable;
-no Moose;
+}
+{
 
-package main;
-use Test::More tests => 3;    # last test to print
+    package MyApp;
+    use Moose;
 
-my $test = MyApp->new();
-my $attr = $test->meta->find_attribute_by_name('fun');
-ok ( $attr->has_applied_traits, 'Traits get applied');
-my @good = grep {$_ eq 'MyApp::Meta::Attribute'} @{$attr->applied_traits};
-ok (scalar @good, 'My traits get applied to '. ref($test));
-is( $test->fun, 'yep', "Default was set by role" );
+    has 'fun' => (
+        is  => 'rw',
+        isa => 'Str'
+    );
 
+    with qw(MyApp::RoleB);
+
+    __PACKAGE__->meta->make_immutable;
+    no Moose;
+
+}
+{
+
+    package main;
+    use Test::More tests => 3;    # last test to print
+
+    my $test = MyApp->new();
+    my $attr = $test->meta->find_attribute_by_name('fun');
+    ok( $attr->has_applied_traits, 'Traits get applied' );
+    my @good =
+        grep { $_ eq 'MyApp::Meta::Attribute' } @{ $attr->applied_traits };
+    ok( scalar @good, 'My traits get applied to ' . ref($test) );
+    is( $test->fun, 'yep', "Default was set by role" );
+
+}

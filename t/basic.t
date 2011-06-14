@@ -1,26 +1,38 @@
-package MyApp::Role;
-use Moose::Role;
-use MooseX::Role::AttributeOverride;
+use strict;
+use warnings;
 
-has_plus 'fun' => ( default => 'yep', );
+{
 
-package MyApp;
-use Moose;
+    package MyApp::Role;
+    use Moose::Role;
+    use MooseX::Role::AttributeOverride;
 
-has 'fun' => (
-    is  => 'rw',
-    isa => 'Str'
-);
+    has_plus 'fun' => ( default => 'yep', );
 
-with qw(MyApp::Role);
+}
+{
 
-package main;
+    package MyApp;
+    use Moose;
 
-#use MyApp;
+    has 'fun' => (
+        is  => 'rw',
+        isa => 'Str'
+    );
 
-use Test::More tests => 1;    # last test to print
+    with qw(MyApp::Role);
 
-my $test = MyApp->new();
+}
+{
 
-is( $test->fun, 'yep', "Default was set by role" );
+    package main;
 
+    #use MyApp;
+
+    use Test::More tests => 1;    # last test to print
+
+    my $test = MyApp->new();
+
+    is( $test->fun, 'yep', "Default was set by role" );
+
+}

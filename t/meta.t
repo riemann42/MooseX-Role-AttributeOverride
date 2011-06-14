@@ -3,17 +3,11 @@ use warnings;
 
 {
 
-    package MyApp::Role;
+    package MyApp::Trait;
     use Moose::Role;
     use MooseX::Role::AttributeOverride;
 
-    has_plus 'fun' => ( builder => '_build_fun' );
-
-    sub _build_fun {
-        return 'yep';
-    }
-
-    no Moose::Role;
+    has_plus 'default' => ( default => sub { return time } );
 
 }
 {
@@ -22,11 +16,10 @@ use warnings;
     use Moose;
 
     has 'fun' => (
-        is  => 'rw',
-        isa => 'Str'
+        is     => 'rw',
+        isa    => 'Int',
+        traits => ['MyApp::Trait'],
     );
-
-    with qw(MyApp::Role);
 
     __PACKAGE__->meta->make_immutable;
     no Moose;
@@ -40,8 +33,9 @@ use warnings;
 
     use Test::More tests => 1;    # last test to print
 
+    my $time = time;
     my $test = MyApp->new();
 
-    is( $test->fun, 'yep', "Default was set by role" );
+    cmp_ok( $test->fun, '>=', $time, "Value was set by sub" );
 
 }

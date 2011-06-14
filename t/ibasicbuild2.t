@@ -1,35 +1,47 @@
-package MyApp::Role;
-use Moose::Role;
-use MooseX::Role::AttributeOverride;
+use strict;
+use warnings;
 
-has_plus 'fun' => ( builder => '_build_fun' );
+{
 
-no Moose::Role;
+    package MyApp::Role;
+    use Moose::Role;
+    use MooseX::Role::AttributeOverride;
 
-package MyApp;
-use Moose;
+    has_plus 'fun' => ( builder => '_build_fun' );
 
-has 'fun' => (
-    is  => 'rw',
-    isa => 'Str'
-);
+    no Moose::Role;
 
-with qw(MyApp::Role);
-
-sub _build_fun {
-    return 'yep';
 }
+{
 
-__PACKAGE__->meta->make_immutable;
-no Moose;
+    package MyApp;
+    use Moose;
 
-package main;
+    has 'fun' => (
+        is  => 'rw',
+        isa => 'Str'
+    );
 
-#use MyApp;
+    with qw(MyApp::Role);
 
-use Test::More tests => 1;    # last test to print
+    sub _build_fun {
+        return 'yep';
+    }
 
-my $test = MyApp->new();
+    __PACKAGE__->meta->make_immutable;
+    no Moose;
 
-is( $test->fun, 'yep', "Default was set by role" );
+}
+{
 
+    package main;
+
+    #use MyApp;
+
+    use Test::More tests => 1;    # last test to print
+
+    my $test = MyApp->new();
+
+    is( $test->fun, 'yep', "Default was set by role" );
+
+}
