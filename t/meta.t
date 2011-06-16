@@ -7,7 +7,7 @@ use warnings;
     use Moose::Role;
     use MooseX::Role::AttributeOverride;
 
-    has_plus 'default' => ( default => sub { return time } );
+    has_plus 'default' => ( default => sub { return 100 } );
 
 }
 {
@@ -33,9 +33,7 @@ use warnings;
 
     use Test::More tests => 1;    # last test to print
 
-    my $time = time;
     my $test = MyApp->new();
-
-    cmp_ok( $test->fun, '>=', $time, "Value was set by sub" );
+    cmp_ok( $test->fun, '==', 100, "Value was set by sub" );
 
 }

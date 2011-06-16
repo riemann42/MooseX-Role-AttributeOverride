@@ -5,7 +5,6 @@ use utf8;
 use Moose::Role;
 use Moose::Util::MetaRole;
 
-# I am not at all sure why I need to do this.  I think I am missing somthing.
 with 'MooseX::Role::AttributeOverride::Meta::Trait::Role';
 
 around apply_params => sub {
