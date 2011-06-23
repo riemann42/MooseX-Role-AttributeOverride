@@ -98,9 +98,10 @@ sub add_modifiers_from_role {
     return $role_a;
 }
 
-sub composition_class_roles {
-    return ('MooseX::Role::AttributeOverride::Meta::Trait::Role::Composite');
-}
+around 'composition_class_roles' => sub {
+    my ($orig,$self) = @_;
+    return ($self->$orig, 'MooseX::Role::AttributeOverride::Meta::Trait::Role::Composite');
+};
 
 no Moose::Role;
 1; # Magic true value required at end of module

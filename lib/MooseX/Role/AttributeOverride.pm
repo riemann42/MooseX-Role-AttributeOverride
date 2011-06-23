@@ -2,6 +2,7 @@ package MooseX::Role::AttributeOverride;
 # ABSTRACT: Allow roles to modify attributes
 use 5.008;
 use utf8;
+use Moose 1.9900 ();
 use Moose::Role 1.9900;
 use Moose::Exporter;
 
