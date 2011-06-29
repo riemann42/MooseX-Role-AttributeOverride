@@ -1,8 +1,6 @@
 package MooseX::Role::AttributeOverride::Meta::Trait::Role;
 # ABSTRACT: Support Role for L<MooseX::Role::AttributeOverride|MooseX::Role::AttributeOverride>
 
-# PODNAME: MooseX::Role::AttributeOverride::Meta::Trait::Role
-
 use 5.008;
 use utf8;
 

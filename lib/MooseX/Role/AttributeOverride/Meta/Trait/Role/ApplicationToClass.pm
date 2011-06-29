@@ -7,11 +7,12 @@ use Moose::Role;
 around apply => sub {
     my ($orig,$self, $role, $class ) = @_;
 
+    $self->$orig( $role, $class );
+
     if ( $role->can('attribute_modifiers') ) {
         $role->apply_modifiers_to_class($class);
     }
 
-    $self->$orig( $role, $class );
 };
 
 no Moose::Role;
